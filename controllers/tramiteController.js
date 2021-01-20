@@ -1,15 +1,15 @@
-import Tramite from '../models/tramite';
+const Tramite =  require('../models/tramite');
 
-exports.tramite_getAll = (req, res, next) => {
-  Tramite.find({})
-    .then(tramites => {
-      res.setHeader('Content-Type', 'application/json');
-      res.status(200).json({ success: true, tramites });
+const tramite_getAll = (req, res, next) => {
+Tramite.find({})
+.then(tramites => {
+  res.setHeader('Content-Type', 'application/json');
+  res.status(200).json({ success: true, tramites });
     })
     .catch(next);
 }
 
-exports.tramite_getOne = (req, res, next) => {
+const tramite_getOne = (req, res, next) => {
   Tramite.findById(req.params.tramiteId)
     .then(tramite => {
       res.setHeader('Content-Type', 'application/json');
@@ -19,7 +19,7 @@ exports.tramite_getOne = (req, res, next) => {
     .catch(next);
 }
 
-exports.tramite_create = (req, res, next) => {
+const tramite_create = (req, res, next) => {
   let newTramite = new Tramite({
     tipoTramite: req.body.tipoTramite,
     tipoVisa: req.body.tipoVisa,
@@ -38,7 +38,7 @@ exports.tramite_create = (req, res, next) => {
     .catch(next);
 }
 
-exports.tramite_delete = (req, res, next) => {
+const tramite_delete = (req, res, next) => {
   Tramite.findByIdAndRemove(req.params.tramiteId)
     .then(tramite => {
       res.setHeader('Content-Type', 'application/json');
@@ -46,4 +46,11 @@ exports.tramite_delete = (req, res, next) => {
       res.status(200).json({ success: true, tramite });
     })
     .catch(next);
+}
+
+module.exports = {
+  tramite_getAll,
+  tramite_getOne,
+  tramite_create,
+  tramite_delete
 }
