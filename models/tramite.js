@@ -7,7 +7,8 @@ let tramiteSchema = new Schema({
   viajandoPor: { type: String, required: true },
   tiempoEstadia: { type: String, required: true },
   velocidad: { type: String, required: true },
-  numeroTramites: { type: Number, required: true }
+  numeroTramites: { type: Number, required: true },
+  email: { type: String, required: true }
 });
 
-module.exports = new mongoose.Model('Tramite', tramiteSchema);
+module.exports = mongoose.model('Tramite', tramiteSchema);
