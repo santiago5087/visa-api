@@ -1,11 +1,14 @@
+require('dotenv').config();
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+const authenticate = require('./authenticate');
+
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const usersRouter = require('./routes/userRoutes');
 const tramitesRouter = require('./routes/tramiteRoutes');
 
 // Conexión a la BD 
@@ -22,6 +25,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(authenticate.passport.initialize());
+app.use(authenticate.passport.session());
 
 app.use('/api', indexRouter);
 app.use('/api/users', usersRouter);

@@ -11,7 +11,8 @@ let userSchema = new Schema({
   celular: { type: String, required: true },
   direccion: { type: String, required: true },
   codigoPostal: { type: Number, required: true },
-  numeroPasaporte: { type: String, default: '' }
+  numeroPasaporte: { type: String, default: '' },
+  admin: { type: Boolean, default: false }
 });
 
 module.exports = mongoose.model('User', userSchema);

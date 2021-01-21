@@ -1,10 +1,11 @@
-import passport from 'passport';
-import { Strategy as LocalStrategy } from 'passport-local';
-import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
-import User from './models/user';
+const User = require('./models/user');
 
 let getToken = (email) => {
   return jwt.sign(email, process.env.SECRET_KEY, { expiresIn: '8h' });
