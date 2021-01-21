@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 const User = require('./models/user');
 
 let getToken = (email) => {
-  return jwt.sign(email, process.env.SECRET_KEY, { expiresIn: '8h' });
+  return jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: '8h' });
 }
 
 let verifyUser = passport.authenticate('jwt', { session: false });

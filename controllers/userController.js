@@ -42,6 +42,32 @@ let signup = (req, res) => {
   });
 }
 
+let login = (req, res, next) => {
+  auth.passport.authenticate('local', { session: false }, (err, user, info) => {
+    if(err) {
+      res.setHeader('Content-Type', 'application/json');
+      return res.status(401).json({ success: false, err });
+    }
+    if(!user) {
+      res.setHeader('Content-Type', 'application/json');
+      return res.status(401).json({ success: false, msg: 'Usuario/contraseña incorrecta' });
+    }
+
+    // Adjunta los datos del usuario a req.user
+    req.logIn(user, (err) => {
+      if(err) {
+        res.setHeader('Content-Type', 'application/json');
+        return res.status(401).json({ success: false, err });
+      }
+
+      let token = auth.getToken(req.user.email);
+      res.setHeader('Content-Type', 'application/json');
+      res.status(200).json({ success: true, user, token });
+    });
+  })(req, res, next);
+}
+
 module.exports = {
-  signup
+  signup,
+  login
 }
