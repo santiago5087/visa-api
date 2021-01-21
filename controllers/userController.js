@@ -67,7 +67,17 @@ let login = (req, res, next) => {
   })(req, res, next);
 }
 
+let checkJWT = (req, res, next) => {
+  auth.passport.authenticate('jwt', { session: false }, (err, user, info) => {
+    res.setHeader('Content-Type', 'application/json');
+    if(err) res.status(400).json({ success: false, err });
+    if(!user) res.status(401).json({ success: false, msg: 'JWT invalid', err: info });
+    res.status(200).json({ success: true, msg: 'JWT valid', user });
+  })(req, res, next);
+}
+
 module.exports = {
   signup,
-  login
+  login,
+  checkJWT
 }
