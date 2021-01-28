@@ -1,7 +1,7 @@
 const Tramite =  require('../models/tramite');
 
 const tramite_getAll = (req, res, next) => {
-Tramite.find({})
+Tramite.find({ email: req.user.email })
 .then(tramites => {
   res.setHeader('Content-Type', 'application/json');
   res.status(200).json({ success: true, tramites });
@@ -27,7 +27,7 @@ const tramite_create = (req, res, next) => {
     tiempoEstadia: req.body.tiempoEstadia,
     velocidad: req.body.velocidad,
     numeroTramites: req.body.numeroTramites,
-    email: req.body.email
+    email: req.user.email
   });
 
   newTramite.save()

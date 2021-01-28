@@ -5,8 +5,8 @@ const auth = require('../authenticate');
 const tramiteController = require('../controllers/tramiteController');
 
 router.get('/', auth.verifyUser, tramiteController.tramite_getAll);
-router.get('/:tramiteId', tramiteController.tramite_getOne);
-router.post('/', tramiteController.tramite_create);
-router.delete('/:tramiteId', tramiteController.tramite_delete);
+router.get('/:tramiteId', auth.verifyUser, tramiteController.tramite_getOne);
+router.post('/', auth.verifyUser, tramiteController.tramite_create);
+router.delete('/:tramiteId', auth.verifyUser, tramiteController.tramite_delete);
 
 module.exports = router;

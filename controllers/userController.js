@@ -112,9 +112,21 @@ let changePassword = (req, res) => {
   });
 }
 
+let updateProfile = (req, res, next) => {
+  let id = req.user.id;
+
+  User.findByIdAndUpdate(id, { $set: req.body }, { new: true })
+    .then(user => {
+      res.setHeader('Content-Type', 'application/json');
+      res.status(200).json({ success: true, msg: 'Perfil actualizado con exito!' });
+    }, next)
+    .catch(next);
+} 
+
 module.exports = {
   signup,
   login,
   checkJWT,
-  changePassword
+  changePassword,
+  updateProfile
 }
