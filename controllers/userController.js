@@ -76,8 +76,45 @@ let checkJWT = (req, res, next) => {
   })(req, res, next);
 }
 
+let changePassword = (req, res) => {
+ let user = req.user;
+ console.log("User changePass", user);
+ 
+ bcrypt.compare(req.body.password, user.password)
+  .then(same => {
+    if(same) {
+      bcrypt.hash(req.body.newPassword, saltRounds)
+        .then(passHash => {
+          User.findOneAndUpdate({ email: user.email }, { $set: { password: passHash } }, { new: true })
+            .then(userUpdated => {
+              res.status(200).json({ success: true, user: userUpdated, msg: 'Contraseña actualizada!' });
+            }).catch(err => {
+              console.log(err);
+              res.setHeader('Content-Type', 'application/json');
+              res.status(400).json({
+                success: false,
+                msg: 'Ha ocurrido un error actualizando la contraseña, inténtelo de nuevo',
+                err
+              }); 
+            })
+        })
+    } else {
+      res.json({ success: false, msg: 'Las contraseñas no coinciden, inténtelo de nuevo' });
+    }
+  }).catch(err => {
+    console.log(err);
+    res.setHeader('Content-Type', 'application/json');
+    res.status(400).json({
+      success: false,
+      msg: 'Ha ocurrido un error actualizando la contraseña, inténtelo de nuevo',
+      err 
+    });
+  });
+}
+
 module.exports = {
   signup,
   login,
-  checkJWT
+  checkJWT,
+  changePassword
 }

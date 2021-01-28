@@ -12,7 +12,10 @@ let userSchema = new Schema({
   direccion: { type: String, required: true },
   codigoPostal: { type: Number, required: true },
   numeroPasaporte: { type: String, default: '' },
-  admin: { type: Boolean, default: false }
+  tramites: {
+    type: [mongoose.Schema.Types.ObjectId],
+    default: []
+  }
 });
 
 module.exports = mongoose.model('User', userSchema);
